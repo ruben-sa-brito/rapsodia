@@ -6,6 +6,7 @@ class Novo(QMainWindow, Ui_MainWindow):
     def __init__(self, parent = None):
         super().__init__(parent)
         super().setupUi(self)
+        self.textEdit.setDisabled(True)
         self.actionCadastrar.triggered.connect(lambda: self.stackedWidget.setCurrentWidget(self.register_2))
         self.actionEmail.triggered.connect(lambda: self.stackedWidget.setCurrentWidget(self.update))
         self.actionRegistrar.triggered.connect(lambda: self.stackedWidget.setCurrentWidget(self.pay))
