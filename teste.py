@@ -12,6 +12,7 @@ class Novo(QMainWindow, Ui_MainWindow):
         self.actionRegistrar.triggered.connect(lambda: self.stackedWidget.setCurrentWidget(self.pay))
         self.actionPesquisar.triggered.connect(lambda: self.stackedWidget.setCurrentWidget(self.search))
         self.actionExcluir.triggered.connect(lambda: self.stackedWidget.setCurrentWidget(self.delete_2))
+        self.actionCursos.triggered.connect(lambda: self.stackedWidget.setCurrentWidget(self.cursos))
         
 if __name__ == '__main__':
     qt = QApplication(sys.argv)

@@ -266,4 +266,3 @@ class Ui_MainWindow(object):
         self.actionPesquisar.setToolTip(_translate("MainWindow", "Excluir um registro de aluno"))
         self.actionExcluir.setText(_translate("MainWindow", "Excluir"))
         self.actionCursos.setText(_translate("MainWindow", "Cursos"))
-import ics_rc
