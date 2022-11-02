@@ -16,12 +16,25 @@ class Novo(QMainWindow, Ui_MainWindow):
         self.actionPesquisar.triggered.connect(lambda: self.stackedWidget.setCurrentWidget(self.search))
         self.actionExcluir.triggered.connect(lambda: self.stackedWidget.setCurrentWidget(self.delete_2))
         self.actionCursos.triggered.connect(lambda: self.stackedWidget.setCurrentWidget(self.cursos))
-        self.registerc.clicked.connect(lambda: self.insert_course())
-        self.list_course.clicked.connect(lambda: self.list_coursei())
+        self.registerc.clicked.connect(self.insert_course)
+        self.list_course.clicked.connect(self.list_coursei)
+        self.pushButton.clicked.connect(self.register)
+        for tup in self.conexao.combo():
+            for n in tup:
+                self.comboBox.addItem(n)
+            
+        
+        
+            
+        
     
     def insert_course(self):
         self.conexao.insert_coursedb(self.course_name.text(), self.workload.text(), self.mounths.text())
         self.course_name.setText(''), self.workload.setText(''), self.mounths.setText('')
+        
+    def register(self):
+        print(type(self.dateEdit.text()))
+           
     
     def list_coursei(self):
         texto = str()
