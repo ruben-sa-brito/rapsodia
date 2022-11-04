@@ -18,12 +18,10 @@ class Novo(QMainWindow, Ui_MainWindow):
         self.registerc.clicked.connect(self.insert_course)
         self.list_course.clicked.connect(self.list_coursei)
         self.pushButton.clicked.connect(self.register)
+        
         for tup in self.conexao.combo():
-            for n in tup:
-                self.comboBox.addItem(n)
-            
-        
-        
+            tup = map(lambda a: str(a), tup)
+            self.comboBox.addItem('-'.join(tup))   
             
     def cadastrarWid(self):
         self.stackedWidget.setCurrentWidget(self.register_2)
@@ -33,13 +31,26 @@ class Novo(QMainWindow, Ui_MainWindow):
                 self.comboBox.addItem(n)
             
     
+    def insert_student(self):
+        self.conexao.insert_coursedb(self.course_name.text(), self.workload.text(), self.mounths.text())
+        self.course_name.setText(''), self.workload.setText(''), self.mounths.setText('')
+        
+    
     
     def insert_course(self):
         self.conexao.insert_coursedb(self.course_name.text(), self.workload.text(), self.mounths.text())
         self.course_name.setText(''), self.workload.setText(''), self.mounths.setText('')
         
     def register(self):
-        print(type(self.dateEdit.text()))
+        course = str()
+        for i in self.comboBox.currentText():
+            if i == '-':
+                break
+            course +=i
+            
+        self.conexao.insert_studentdb(self.lineEdit.text(), self.lineEdit_3.text(), self.lineEdit_4.text())
+        self.conexao.insert_student_coursedb(self.dateEdit.text(), int(course))
+        self.lineEdit.setText(''), self.lineEdit_3.setText(''), self.lineEdit_4.setText('')
            
     
     def list_coursei(self):
