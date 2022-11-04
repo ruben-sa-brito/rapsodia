@@ -27,8 +27,8 @@ class Novo(QMainWindow, Ui_MainWindow):
         self.stackedWidget.setCurrentWidget(self.register_2)
         self.comboBox.clear()
         for tup in self.conexao.combo():
-            for n in tup:
-                self.comboBox.addItem(n)
+            tup = map(lambda a: str(a), tup)
+            self.comboBox.addItem('-'.join(tup))
             
     
     def insert_student(self):
