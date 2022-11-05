@@ -49,4 +49,5 @@ class rapsodiadb:
         elif param == 'Nome': 
             self.cursor.execute(f'SELECT idaluno, nome, email, telefone, datavenc, parcpg, nomecurso FROM aluno JOIN cursoaluno ON aluno.idaluno = cursoaluno.fidaluno JOIN curso ON cursoaluno.fidcurso = curso.idcurso WHERE "nome" like  "%{value}%"')
 
-            return self.cursor.fetchall()    
+            return self.cursor.fetchall() 
+               

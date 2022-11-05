@@ -673,7 +673,7 @@ p, li { white-space: pre-wrap; }
     <string>Registrar </string>
    </property>
    <property name="toolTip">
-    <string>Pesquisa alunos no sistema</string>
+    <string>Registrar pagamentos</string>
    </property>
   </action>
   <action name="actionPesquisar">
@@ -685,7 +685,7 @@ p, li { white-space: pre-wrap; }
     <string>Pesquisar</string>
    </property>
    <property name="toolTip">
-    <string>Excluir um registro de aluno</string>
+    <string>Pesquisar</string>
    </property>
   </action>
   <action name="actionExcluir">
