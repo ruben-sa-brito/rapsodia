@@ -3,6 +3,7 @@ from design import *
 from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox
 from connection import rapsodiadb
 import re 
+from dialog import Dialog
 regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
 
 
@@ -22,12 +23,12 @@ class Novo(QMainWindow, Ui_MainWindow):
         self.pushButton.clicked.connect(self.register)
         self.comboBox_2.addItems(('id','Nome'))
         self.pushButton_4.clicked.connect(self.list_student)
-        
         for tup in self.conexao.combo():
             tup = map(lambda a: str(a), tup)
             self.comboBox.addItem('-'.join(tup))   
             
     def cadastrarWid(self):
+        
         self.stackedWidget.setCurrentWidget(self.register_2)
         self.comboBox.clear()
         for tup in self.conexao.combo():
@@ -36,23 +37,26 @@ class Novo(QMainWindow, Ui_MainWindow):
     
     
     def insert_course(self):
-        self.conexao.insert_coursedb(self.course_name.text(), self.workload.text(), self.mounths.text())
-        self.course_name.setText(''), self.workload.setText(''), self.mounths.setText('')
+        try:
+            int(self.mounths.text())
+        except:
+            message.invalid_mounth()
+        else:        
+       
+            self.conexao.insert_coursedb(self.course_name.text(), self.workload.text(), self.mounths.text())
+            self.course_name.setText(''), self.workload.setText(''), self.mounths.setText('')
+            message.sucess_register()
+        
         
     def register(self):
-        self.message = QMessageBox(novo)
-        
+           
         if len(self.lineEdit.text().replace(' ','')) == 0:
             
-            self.message.setText('Campo nome nao pode ficar vazio')
-            self.message.setWindowTitle('Aviso')
-            self.message.setIcon(QMessageBox.Warning)
-            self.message.exec_()
+            message.invalid_name()
+            
         elif not (re.search(regex, self.lineEdit_3.text())):
-            self.message.setText('Digite um email válido')
-            self.message.setWindowTitle('Aviso')
-            self.message.setIcon(QMessageBox.Warning)
-            self.message.exec_()
+            
+            message.invalid_email()         
                 
         else:    
             
@@ -65,10 +69,8 @@ class Novo(QMainWindow, Ui_MainWindow):
             self.conexao.insert_studentdb(self.lineEdit.text(), self.lineEdit_3.text(), self.lineEdit_4.text())
             self.conexao.insert_student_coursedb(self.dateEdit.text(), int(course))
             self.lineEdit.setText(''), self.lineEdit_3.setText(''), self.lineEdit_4.setText('')
-            self.message.setText('Aluno cadastrado com sucesso')
-            self.message.setWindowTitle('Mensagem')
-            self.message.setIcon(QMessageBox.Information)
-            self.message.exec_()
+            
+            message.sucess_register()
             
     
     def list_coursei(self):
@@ -117,4 +119,5 @@ if __name__ == '__main__':
     qt = QApplication(sys.argv)
     novo = Novo()
     novo.show()
+    message = Dialog(novo)
     qt.exec_()
