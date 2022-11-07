@@ -26,6 +26,22 @@ class rapsodiadb:
         consulta = 'INSERT OR IGNORE INTO cursoaluno (datavenc, fidaluno, fidcurso, parcpg) VALUES (?, ?, ?, ?)'       
         self.cursor.execute(consulta, (datavenc, fidaluno, fidcurso, 0))
         self.conn.commit()
+    
+    def payments(self, idcurso):
+        fidaluno = str()
+        for tup in self.cursor.execute('SELECT MAX(idaluno) FROM aluno').fetchall():
+            for i in tup:
+                fidaluno = i
+        for tup in self.cursor.execute(f'SELECT qtdmes FROM curso WHERE idcurso = {idcurso}').fetchall():
+            for i in tup:
+                qtdmonths = i
+                
+                
+
+        for i in range(qtdmonths):
+            consulta = 'INSERT OR IGNORE INTO pagamentos (parcela, pagamento, fidaluno) VALUES (?, ?, ?)'
+            self.cursor.execute(consulta, (i, 0, fidaluno))
+            self.conn.commit()    
         
     
     def insert_coursedb(self, nomecurso, cargahr, qtdmes):
@@ -42,12 +58,16 @@ class rapsodiadb:
     def list_studentdb(self, param, value):
         
         if param == 'id':
-            self.cursor.execute(f'SELECT idaluno, nome, email, telefone, datavenc, parcpg, nomecurso FROM aluno JOIN cursoaluno ON aluno.idaluno = cursoaluno.fidaluno JOIN curso ON cursoaluno.fidcurso = curso.idcurso WHERE "idaluno" = {int(value)}')
-
-            return self.cursor.fetchall()
+            self.cursor.execute(f'SELECT idaluno, nome, email, telefone, datavenc, nomecurso FROM aluno JOIN cursoaluno ON aluno.idaluno = cursoaluno.fidaluno JOIN curso ON cursoaluno.fidcurso = curso.idcurso WHERE "idaluno" = {int(value)}')
+            aluno =self.cursor.fetchall()
+            aluno.append(self.cursor.execute(f'SELECT pagamento FROM aluno JOIN pagamentos ON aluno.idaluno = pagamentos.fidaluno WHERE "idaluno" = {int(value)}'))
+            print(aluno)
+            return aluno
         
         elif param == 'Nome': 
-            self.cursor.execute(f'SELECT idaluno, nome, email, telefone, datavenc, parcpg, nomecurso FROM aluno JOIN cursoaluno ON aluno.idaluno = cursoaluno.fidaluno JOIN curso ON cursoaluno.fidcurso = curso.idcurso WHERE "nome" like  "%{value}%"')
+            self.cursor.execute(f'SELECT idaluno, nome, email, telefone, datavenc, pagamento, nomecurso FROM aluno JOIN cursoaluno ON aluno.idaluno = cursoaluno.fidaluno JOIN curso ON cursoaluno.fidcurso = curso.idcurso JOIN pagamentos ON aluno.idaluno = pagamentos.fidaluno WHERE "nome" like  "%{value}%"')
 
             return self.cursor.fetchall() 
+    
+   
                
