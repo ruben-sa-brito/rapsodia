@@ -1,6 +1,7 @@
 import sqlite3
 
 
+
 class rapsodiadb:
     def __init__(self):
         self.conn = sqlite3.connect('db_graf.db')
@@ -89,7 +90,7 @@ class rapsodiadb:
             
             return aluno 
     
-    def register_paymentsdb(self, idaluno, parcela):
+    def register_paymentsdbtest(self, idaluno, parcela):
         try:
             consulta = self.cursor.execute(f'SELECT pagamento FROM pagamentos  WHERE fidaluno = {int(idaluno)} AND parcela = {int(parcela)} ')
             exist = None
@@ -99,15 +100,24 @@ class rapsodiadb:
             if exist == 1:
                 return 1
             elif exist == None:
-                print('estou aqui')
                 return 0
-            else:     
-                registro = f'UPDATE pagamentos SET pagamento = 1 WHERE fidaluno = {int(idaluno)} AND parcela = {int(parcela)} '
-                self.cursor.execute(registro)
-                self.conn.commit()
+            else:
                 return 2
         except:
-            return    
+            return
+    
+    def register_paymentsdb(self, idaluno, parcela):
         
+        
+            registro = f'UPDATE pagamentos SET pagamento = 1 WHERE fidaluno = {int(idaluno)} AND parcela = {int(parcela)} '
+            self.cursor.execute(registro)
+            self.conn.commit()
+                   
+    
+    def select_aluno(self, idaluno):
+        consulta = self.cursor.execute(f'SELECT nome FROM aluno WHERE idaluno = {int(idaluno)}')
+        for a in consulta:
+            for b in a:
+                return b
    
                

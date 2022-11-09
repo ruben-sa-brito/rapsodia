@@ -129,14 +129,18 @@ f"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt
             
     def register_payments(self):
         
-        consulta = self.conexao.register_paymentsdb(self.id_alunop.text(), self.parcela.text())
+        consulta = self.conexao.register_paymentsdbtest(self.id_alunop.text(), self.parcela.text())
         
         if consulta == 1:
             message.payment_exists()
         elif consulta == 0:
             message.not_found()
-        elif consulta == 2:    
-            message.sucess_payment()
+        elif consulta == 2:
+            if message.confirm_box(self.conexao.select_aluno(self.id_alunop.text())) == 0:
+                self.conexao.register_paymentsdb(self.id_alunop.text(), self.parcela.text())  
+                message.sucess_payment()
+        elif consulta == 3:
+            pass    
         else:
             message.general_error()        
             

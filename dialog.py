@@ -28,6 +28,15 @@ class Dialog:
         self.message.setIcon(QMessageBox.Warning)
         self.message.exec_()
     
+    def confirm_box(self, text):
+       
+        n = self.message.question(self.message, 'Aviso','Deseja registrar o pagamento do(a) aluno(a):\n ' +text, QMessageBox.Yes | QMessageBox.No)
+        self.message.question
+           
+        if n == self.message.Yes:
+            return 0
+        else:
+            return 1
     def payment_exists(self):
         self.message.setText('Pagamento já registrado')
         self.message.setWindowTitle('Aviso')
