@@ -1,6 +1,6 @@
 import sys
 from design import *
-from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox
+from PyQt5.QtWidgets import QMainWindow, QApplication
 from connection import rapsodiadb
 import re 
 from dialog import Dialog
@@ -21,6 +21,7 @@ class Novo(QMainWindow, Ui_MainWindow):
         self.registerc.clicked.connect(self.insert_course)
         self.list_course.clicked.connect(self.list_coursei)
         self.pushButton.clicked.connect(self.register)
+        self.pushButtonPay.clicked.connect(self.register_payments)
         self.comboBox_2.addItems(('id','Nome'))
         self.pushButton_4.clicked.connect(self.list_student)
         for tup in self.conexao.combo():
@@ -35,7 +36,6 @@ class Novo(QMainWindow, Ui_MainWindow):
             tup = map(lambda a: str(a), tup)
             self.comboBox.addItem('-'.join(tup))
     
-    
     def insert_course(self):
         try:
             int(self.mounths.text())
@@ -46,8 +46,7 @@ class Novo(QMainWindow, Ui_MainWindow):
             self.conexao.insert_coursedb(self.course_name.text(), self.workload.text(), self.mounths.text())
             self.course_name.setText(''), self.workload.setText(''), self.mounths.setText('')
             message.sucess_register()
-        
-        
+           
     def register(self):
            
         if len(self.lineEdit.text().replace(' ','')) == 0:
@@ -68,10 +67,10 @@ class Novo(QMainWindow, Ui_MainWindow):
                 
             self.conexao.insert_studentdb(self.lineEdit.text(), self.lineEdit_3.text(), self.lineEdit_4.text())
             self.conexao.insert_student_coursedb(self.dateEdit.text(), int(course))
+            self.conexao.payments(course)
             self.lineEdit.setText(''), self.lineEdit_3.setText(''), self.lineEdit_4.setText('')
             
-            message.sucess_register()
-            
+            message.sucess_register()       
     
     def list_coursei(self):
         texto = str()
@@ -93,17 +92,31 @@ f"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>")
         
     def list_student(self):
+        
         try:
             texto = str()
-            form = {1:'Id: ', 2: 'Nome: ', 3:'Email: ', 4:'Telefone: ', 5:'Data de Vencimento: ', 6:'Parcelas Pagas: ', 7:'Curso Inscrito: '}
+            form = {1:'Id: ', 2: 'Nome: ', 3:'Email: ', 4:'Telefone: ', 5:'Data de vencimento: ', 6:'Curso Inscrito: ', 7:'Parcelas Pagas: '}
             controle = 1
+            controle2  = 1
+            pay = 0
             for linha in self.conexao.list_studentdb(self.comboBox_2.currentText(), self.lineEdit_7.text()):
-                for dado in linha:
-                    if controle == 7:
-                        texto += form[controle] +  str(dado)  + '<br>---------------------------<br><br>'  
-                    else:
+                if controle2 % 2 !=0:
+                    
+                    for dado in linha:
                         texto += form[controle] +  str(dado) + '<br>'
-                    controle +=1
+                        controle +=1        
+                else:
+                    
+                    for tup in linha:
+                        for i in tup: 
+                            
+                            if i == 1:
+                                pay +=1
+                    print(pay)            
+                    texto += form[7] +  str(pay) + '<br>---------------------------<br><br>' 
+                    pay = 0
+                    
+                controle2 += 1            
                 controle = 1     
 
             self.textBrowser.setHtml("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
@@ -114,7 +127,22 @@ f"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt
         except:
             pass
             
-                    
+    def register_payments(self):
+        
+        consulta = self.conexao.register_paymentsdb(self.id_alunop.text(), self.parcela.text())
+        
+        if consulta == 1:
+            message.payment_exists()
+        elif consulta == 0:
+            message.not_found()
+        elif consulta == 2:    
+            message.sucess_payment()
+        else:
+            message.general_error()        
+            
+        self.id_alunop.setText(''), self.parcela.setText('')
+        
+                        
 if __name__ == '__main__':
     qt = QApplication(sys.argv)
     novo = Novo()
