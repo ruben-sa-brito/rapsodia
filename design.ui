@@ -375,7 +375,7 @@
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt; id do aluno:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="lineEdit_2">
+       <widget class="QLineEdit" name="id_alunop">
         <property name="geometry">
          <rect>
           <x>150</x>
@@ -385,17 +385,40 @@
          </rect>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton_3">
+       <widget class="QPushButton" name="pushButtonPay">
         <property name="geometry">
          <rect>
           <x>150</x>
-          <y>100</y>
+          <y>140</y>
           <width>75</width>
           <height>23</height>
          </rect>
         </property>
         <property name="text">
          <string>Registrar</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="parcela">
+        <property name="geometry">
+         <rect>
+          <x>150</x>
+          <y>100</y>
+          <width>113</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_18">
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>100</y>
+          <width>47</width>
+          <height>13</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>parcela:</string>
         </property>
        </widget>
       </widget>
@@ -722,8 +745,8 @@ p, li { white-space: pre-wrap; }
   <tabstop>mounths</tabstop>
   <tabstop>registerc</tabstop>
   <tabstop>updatec</tabstop>
-  <tabstop>lineEdit_2</tabstop>
-  <tabstop>pushButton_3</tabstop>
+  <tabstop>id_alunop</tabstop>
+  <tabstop>pushButtonPay</tabstop>
   <tabstop>comboBox_2</tabstop>
   <tabstop>lineEdit_7</tabstop>
   <tabstop>pushButton_4</tabstop>

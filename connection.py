@@ -40,10 +40,9 @@ class rapsodiadb:
 
         for i in range(qtdmonths):
             consulta = 'INSERT OR IGNORE INTO pagamentos (parcela, pagamento, fidaluno) VALUES (?, ?, ?)'
-            self.cursor.execute(consulta, (i, 0, fidaluno))
+            self.cursor.execute(consulta, (i+1, 0, fidaluno))
             self.conn.commit()    
-        
-    
+          
     def insert_coursedb(self, nomecurso, cargahr, qtdmes):
 
         consulta = 'INSERT OR IGNORE INTO curso (nomecurso, cargahr, qtdmes) VALUES (?, ?, ?)'
@@ -56,18 +55,59 @@ class rapsodiadb:
         return self.cursor.fetchall()
     
     def list_studentdb(self, param, value):
+        aluno = list()
         
         if param == 'id':
             self.cursor.execute(f'SELECT idaluno, nome, email, telefone, datavenc, nomecurso FROM aluno JOIN cursoaluno ON aluno.idaluno = cursoaluno.fidaluno JOIN curso ON cursoaluno.fidcurso = curso.idcurso WHERE "idaluno" = {int(value)}')
-            aluno =self.cursor.fetchall()
+            for a in self.cursor.fetchall():
+                aluno.append(a)
+           
             aluno.append(self.cursor.execute(f'SELECT pagamento FROM aluno JOIN pagamentos ON aluno.idaluno = pagamentos.fidaluno WHERE "idaluno" = {int(value)}'))
-            print(aluno)
+            
             return aluno
         
-        elif param == 'Nome': 
-            self.cursor.execute(f'SELECT idaluno, nome, email, telefone, datavenc, pagamento, nomecurso FROM aluno JOIN cursoaluno ON aluno.idaluno = cursoaluno.fidaluno JOIN curso ON cursoaluno.fidcurso = curso.idcurso JOIN pagamentos ON aluno.idaluno = pagamentos.fidaluno WHERE "nome" like  "%{value}%"')
-
-            return self.cursor.fetchall() 
+        elif param == 'Nome':
+            self.cursor.execute(f'SELECT idaluno FROM aluno WHERE "nome" like  "%{value}%"')
+            ids = self.cursor.fetchall()
+            
+            for tup in ids:
+                
+                for i in tup: 
+                    self.cursor.execute(f'SELECT idaluno, nome, email, telefone, datavenc, nomecurso FROM aluno JOIN cursoaluno ON aluno.idaluno = cursoaluno.fidaluno JOIN curso ON cursoaluno.fidcurso = curso.idcurso WHERE "idaluno" = {i}')
+                    
+                    for a in self.cursor.fetchall():
+                        aluno.append(a)
+                    
+                    self.cursor.execute(f'SELECT pagamento FROM aluno JOIN pagamentos ON aluno.idaluno = pagamentos.fidaluno WHERE "idaluno" = {i}')
+                    payments = list()
+                    for a in self.cursor.fetchall():
+                        payments.append(a)
+                    
+                    aluno.append(payments)
+                    
+                       
+            
+            return aluno 
     
+    def register_paymentsdb(self, idaluno, parcela):
+        try:
+            consulta = self.cursor.execute(f'SELECT pagamento FROM pagamentos  WHERE fidaluno = {int(idaluno)} AND parcela = {int(parcela)} ')
+            exist = None
+            for a in consulta:
+                for b in a:
+                    exist = b
+            if exist == 1:
+                return 1
+            elif exist == None:
+                print('estou aqui')
+                return 0
+            else:     
+                registro = f'UPDATE pagamentos SET pagamento = 1 WHERE fidaluno = {int(idaluno)} AND parcela = {int(parcela)} '
+                self.cursor.execute(registro)
+                self.conn.commit()
+                return 2
+        except:
+            return    
+        
    
                
