@@ -112,7 +112,7 @@ f"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt
                             
                             if i == 1:
                                 pay +=1
-                    print(pay)            
+                                
                     texto += form[7] +  str(pay) + '<br>---------------------------<br><br>' 
                     pay = 0
                     

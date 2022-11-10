@@ -71,6 +71,9 @@ class Ui_MainWindow(object):
         self.dateEdit = QtWidgets.QDateEdit(self.register_2)
         self.dateEdit.setGeometry(QtCore.QRect(70, 200, 110, 22))
         self.dateEdit.setObjectName("dateEdit")
+        self.label_22 = QtWidgets.QLabel(self.register_2)
+        self.label_22.setGeometry(QtCore.QRect(10, 500, 481, 16))
+        self.label_22.setObjectName("label_22")
         self.stackedWidget.addWidget(self.register_2)
         self.cursos = QtWidgets.QWidget()
         self.cursos.setObjectName("cursos")
@@ -283,6 +286,7 @@ class Ui_MainWindow(object):
         self.label_6.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:9pt;\">Curso:</span></p></body></html>"))
         self.label_9.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\">id:</p></body></html>"))
         self.pushButton_2.setText(_translate("MainWindow", "ATUALIZAR"))
+        self.label_22.setText(_translate("MainWindow", "Atenção: os campos \'vencimento\' e \'curso\' nao serão modificados ao atualizar registros."))
         self.label_14.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\">id:</p></body></html>"))
         self.label_17.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:12pt; font-weight:600;\">CADASTRAR CURSO</span></p></body></html>"))
         self.label_19.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\">Meses:</p></body></html>"))
@@ -324,4 +328,3 @@ class Ui_MainWindow(object):
         self.actionPesquisar.setToolTip(_translate("MainWindow", "Pesquisar"))
         self.actionExcluir.setText(_translate("MainWindow", "Excluir"))
         self.actionCursos.setText(_translate("MainWindow", "Cursos"))
-
