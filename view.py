@@ -24,6 +24,7 @@ class Novo(QMainWindow, Ui_MainWindow):
         self.pushButtonPay.clicked.connect(self.register_payments)
         self.comboBox_2.addItems(('id','Nome'))
         self.pushButton_4.clicked.connect(self.list_student)
+        self.pushButton_2.clicked.connect(self.update_student)
         for tup in self.conexao.combo():
             tup = map(lambda a: str(a), tup)
             self.comboBox.addItem('-'.join(tup))   
@@ -112,7 +113,7 @@ f"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt
                             
                             if i == 1:
                                 pay +=1
-                    print(pay)            
+                                
                     texto += form[7] +  str(pay) + '<br>---------------------------<br><br>' 
                     pay = 0
                     
@@ -129,19 +130,64 @@ f"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt
             
     def register_payments(self):
         
-        consulta = self.conexao.register_paymentsdb(self.id_alunop.text(), self.parcela.text())
+        consulta = self.conexao.register_paymentsdbtest(self.id_alunop.text(), self.parcela.text())
         
         if consulta == 1:
             message.payment_exists()
         elif consulta == 0:
             message.not_found()
-        elif consulta == 2:    
-            message.sucess_payment()
+        elif consulta == 2:
+            if message.confirm_box(self.conexao.select_aluno(self.id_alunop.text())) == 0:
+                self.conexao.register_paymentsdb(self.id_alunop.text(), self.parcela.text())  
+                message.sucess_payment()
+        elif consulta == 3:
+            pass    
         else:
             message.general_error()        
             
         self.id_alunop.setText(''), self.parcela.setText('')
+    
+    def update_student(self):
+        values = list()
         
+        try:
+            ida = int(self.lineEdit_6.text())
+        except:
+            message.general_error()
+        else:         
+            if self.conexao.select_aluno_exists(ida):
+                if message.confirm_box_upd(self.conexao.select_aluno(ida)): 
+                    
+                    nome =self.lineEdit.text()
+                    email = self.lineEdit_3.text()
+                    telefone = self.lineEdit_4.text()
+                    
+                            
+                    if len(nome) != 0: 
+                        values.append('nome = '+"'"+nome+"'")    
+                        
+                    if len(email) != 0:
+                        if not (re.search(regex, email)):
+                            
+                            message.invalid_email_upd()
+                        else:
+                            values.append('email = '+"'"+email+"'")  
+                    
+                    if len(telefone) != 0:
+                        values.append('telefone = '+"'"+telefone+"'")
+                    if len(values) == 0:
+                        pass
+                    else:
+                
+                        values = ', '.join(values)
+                        self.conexao.update_studentdb(ida, values)    
+                        message.att_success()
+                        self.lineEdit.setText(''), self.lineEdit_3.setText(''), self.lineEdit_4.setText('')
+                        
+            else:
+                message.not_found()                
+                
+                                     
                         
 if __name__ == '__main__':
     qt = QApplication(sys.argv)
