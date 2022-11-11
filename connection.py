@@ -111,13 +111,34 @@ class rapsodiadb:
         
             registro = f'UPDATE pagamentos SET pagamento = 1 WHERE fidaluno = {int(idaluno)} AND parcela = {int(parcela)} '
             self.cursor.execute(registro)
-            self.conn.commit()
-                   
+            self.conn.commit()           
     
+    def update_studentdb(self, idaluno, values):
+        
+        att = f'UPDATE aluno SET {values} WHERE idaluno = {idaluno}'
+        
+        
+        self.cursor.execute(att)
+        self.conn.commit()
+            
+        
+        
     def select_aluno(self, idaluno):
         consulta = self.cursor.execute(f'SELECT nome FROM aluno WHERE idaluno = {int(idaluno)}')
         for a in consulta:
             for b in a:
                 return b
+            
+    def select_aluno_exists(self, idaluno):
+        
+            consulta =self.cursor.execute(f'SELECT nome FROM aluno WHERE idaluno = {int(idaluno)}')
+            for a in consulta:
+                for b in a:
+                    if b == None:
+                        return False
+                    else:
+                        return True        
+        
+                    
    
                

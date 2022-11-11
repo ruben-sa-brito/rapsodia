@@ -37,6 +37,17 @@ class Dialog:
             return 0
         else:
             return 1
+    
+    def confirm_box_upd(self, text):
+       
+        n = self.message.question(self.message, 'Aviso','Deseja atualizar o registro do(a) aluno(a):\n ' +text, QMessageBox.Yes | QMessageBox.No)
+        self.message.question
+           
+        if n == self.message.Yes:
+            return True
+        else:
+            return False          
+        
     def payment_exists(self):
         self.message.setText('Pagamento já registrado')
         self.message.setWindowTitle('Aviso')
@@ -49,6 +60,12 @@ class Dialog:
         self.message.setIcon(QMessageBox.Warning)
         self.message.exec_()
     
+    def invalid_email_upd(self):
+        self.message.setText('Digite um email válido, seu email nao foi alterado')
+        self.message.setWindowTitle('Aviso')
+        self.message.setIcon(QMessageBox.Warning)
+        self.message.exec_()
+    
     def invalid_name(self):
         self.message.setText('Campo nome nao pode ficar vazio')
         self.message.setWindowTitle('Aviso')
@@ -56,7 +73,13 @@ class Dialog:
         self.message.exec_()
     
     def general_error(self):
-        self.message.setText('ERROR')
+        self.message.setText('Ops algo deu errado :(')
         self.message.setWindowTitle('Warning')
         self.message.setIcon(QMessageBox.Warning)
-        self.message.exec_()         
+        self.message.exec_()
+    
+    def att_success(self):
+        self.message.setText('Cadastro atualizado')
+        self.message.setWindowTitle('Mensagem')
+        self.message.setIcon(QMessageBox.Information)
+        self.message.exec_()             
