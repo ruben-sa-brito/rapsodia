@@ -147,13 +147,15 @@ class rapsodiadb:
                 return b
             
     def select_aluno_exists(self, idaluno):
-        
+            
             consulta =self.cursor.execute(f'SELECT nome FROM aluno WHERE idaluno = {int(idaluno)}')
             for a in consulta:
                 for b in a:
                     if b == None:
+                        
                         return False
                     else:
+                        
                         return True        
         
                     

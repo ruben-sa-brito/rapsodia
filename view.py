@@ -190,10 +190,18 @@ f"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt
                 message.not_found()                
     
     def del_student(self):
-        if self.conexao.del_studentdb(self.idadel.text()) == 0:
-            message.general_error()
+        
+        
+        
+        if self.conexao.select_aluno_exists(self.idadel.text()):
+            
+            if message.confirm_box_del(self.conexao.select_aluno(self.idadel.text())):
+                
+                message.del_success()
+            else:
+                pass
         else:
-            message.att_success()    
+            message.general_error()            
        
     '''        
     def del_course(self):
