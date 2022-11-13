@@ -25,6 +25,8 @@ class Novo(QMainWindow, Ui_MainWindow):
         self.comboBox_2.addItems(('id','Nome'))
         self.pushButton_4.clicked.connect(self.list_student)
         self.pushButton_2.clicked.connect(self.update_student)
+        self.delA.clicked.connect(self.del_student)
+        
         for tup in self.conexao.combo():
             tup = map(lambda a: str(a), tup)
             self.comboBox.addItem('-'.join(tup))   
@@ -186,8 +188,30 @@ f"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt
                         
             else:
                 message.not_found()                
+    
+    def del_student(self):
+        
+        
+        
+        if self.conexao.select_aluno_exists(self.idadel.text()):
+            
+            if message.confirm_box_del(self.conexao.select_aluno(self.idadel.text())):
                 
-                                     
+                message.del_success()
+            else:
+                pass
+        else:
+            message.general_error()            
+       
+    '''        
+    def del_course(self):
+        if self.conexao.exc_studentdb(self.idcdel.text()) == 0:
+            message.general_error()
+        else:
+            message.att_success()    
+    '''   
+        
+                                         
                         
 if __name__ == '__main__':
     qt = QApplication(sys.argv)

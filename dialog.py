@@ -46,7 +46,17 @@ class Dialog:
         if n == self.message.Yes:
             return True
         else:
-            return False          
+            return False
+    
+    def confirm_box_del(self, text):
+       
+        n = self.message.question(self.message, 'Aviso','Deseja excluir o registro do(a) aluno(a):\n ' +text, QMessageBox.Yes | QMessageBox.No)
+        self.message.question
+           
+        if n == self.message.Yes:
+            return True
+        else:
+            return False              
         
     def payment_exists(self):
         self.message.setText('Pagamento já registrado')
@@ -78,6 +88,12 @@ class Dialog:
         self.message.setIcon(QMessageBox.Warning)
         self.message.exec_()
     
+    def del_success(self):
+        self.message.setText('Registro excluído')
+        self.message.setWindowTitle('Mensagem')
+        self.message.setIcon(QMessageBox.Information)
+        self.message.exec_()
+        
     def att_success(self):
         self.message.setText('Cadastro atualizado')
         self.message.setWindowTitle('Mensagem')
