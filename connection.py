@@ -121,7 +121,24 @@ class rapsodiadb:
         self.cursor.execute(att)
         self.conn.commit()
             
-        
+    def del_coursedb(self, idcurso):
+        try:
+            self.cursor.execute(f'DELETE FROM curso WHERE idcurso = {idcurso}')
+            self.conn.commit()
+        except:
+            return 0 
+    
+    def del_studentdb(self, idaluno):
+        try:
+            self.cursor.execute(f'DELETE FROM pagamentos WHERE fidaluno = {idaluno}')
+            self.conn.commit()
+            self.cursor.execute(f'DELETE FROM cursoaluno WHERE fidaluno = {idaluno}')
+            self.conn.commit()
+            self.cursor.execute(f'DELETE FROM aluno WHERE idaluno = {idaluno}')
+            self.conn.commit()
+        except:
+            return 0    
+                       
         
     def select_aluno(self, idaluno):
         consulta = self.cursor.execute(f'SELECT nome FROM aluno WHERE idaluno = {int(idaluno)}')
