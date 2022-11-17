@@ -40,15 +40,20 @@ class Novo(QMainWindow, Ui_MainWindow):
             self.comboBox.addItem('-'.join(tup))
     
     def insert_course(self):
-        try:
-            int(self.mounths.text())
-        except:
-            message.invalid_mounth()
-        else:        
-       
-            self.conexao.insert_coursedb(self.course_name.text(), self.workload.text(), self.mounths.text())
-            self.course_name.setText(''), self.workload.setText(''), self.mounths.setText('')
-            message.sucess_register()
+        if len(self.course_name.text().replace(' ','')) == 0:
+            message.invalid_name()
+        else:    
+            try:
+                int(self.mounths.text())
+                int(self.workload.text())
+                int(self.lineEdit_2.text())
+            except:
+                message.general_error()
+            else:        
+        
+                self.conexao.insert_coursedb(self.course_name.text(), self.workload.text(), self.lineEdit_2.text() ,self.mounths.text())
+                self.course_name.setText(''), self.workload.setText(''), self.mounths.setText(''), self.lineEdit_2.setText('')
+                message.sucess_register()
            
     def register(self):
            
@@ -67,21 +72,26 @@ class Novo(QMainWindow, Ui_MainWindow):
                 if i == '-':
                     break
                 course +=i
+            try:
+                int(self.lineEdit_2.text())
+            except:
+                message.general_error()
+            else:        
+                        
+                self.conexao.insert_studentdb(self.lineEdit.text(), self.lineEdit_3.text(), self.lineEdit_4.text())
+                self.conexao.insert_student_coursedb(self.dateEdit.text(), int(course), int(self.lineEdit_2.text()))
+                self.conexao.payments(course)
+                self.lineEdit.setText(''), self.lineEdit_3.setText(''), self.lineEdit_4.setText('')
                 
-            self.conexao.insert_studentdb(self.lineEdit.text(), self.lineEdit_3.text(), self.lineEdit_4.text())
-            self.conexao.insert_student_coursedb(self.dateEdit.text(), int(course))
-            self.conexao.payments(course)
-            self.lineEdit.setText(''), self.lineEdit_3.setText(''), self.lineEdit_4.setText('')
-            
-            message.sucess_register()       
+                message.sucess_register()       
     
     def list_coursei(self):
         texto = str()
-        form = {1:'Id: ', 2: 'Nome: ', 3:'Carga horária: ', 4:'Quantidade de meses: '}
+        form = {1:'Id: ', 2: 'Nome: ', 3:'Carga horária: ', 4:'Quantidade de meses: ', 5: 'Valor da mensalidade: '}
         controle = 1
         for linha in self.conexao.list_coursedb():
             for dado in linha:
-               if controle == 4:
+               if controle == 5:
                     texto += form[controle] +  str(dado)  + '<br>---------------------------<br><br>'  
                else:
                     texto += form[controle] +  str(dado) + '<br>'
