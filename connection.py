@@ -18,14 +18,14 @@ class rapsodiadb:
         self.cursor.execute(consulta, (nome, email, telefone))
         self.conn.commit()
         
-    def insert_student_coursedb(self, datavenc, fidcurso): 
+    def insert_student_coursedb(self, datavenc, fidcurso, valorparc): 
         fidaluno = str()
         for tup in self.cursor.execute('SELECT MAX(idaluno) FROM aluno').fetchall():
             for i in tup:
                 fidaluno = i 
         
-        consulta = 'INSERT OR IGNORE INTO cursoaluno (datavenc, fidaluno, fidcurso, parcpg) VALUES (?, ?, ?, ?)'       
-        self.cursor.execute(consulta, (datavenc, fidaluno, fidcurso, 0))
+        consulta = 'INSERT OR IGNORE INTO cursoaluno (datavenc, fidaluno, fidcurso, valorparc) VALUES (?, ?, ?, ?)'       
+        self.cursor.execute(consulta, (datavenc, fidaluno, fidcurso, valorparc))
         self.conn.commit()
     
     def payments(self, idcurso):
@@ -44,10 +44,10 @@ class rapsodiadb:
             self.cursor.execute(consulta, (i+1, 0, fidaluno))
             self.conn.commit()    
           
-    def insert_coursedb(self, nomecurso, cargahr, qtdmes):
+    def insert_coursedb(self, nomecurso, cargahr, valorparc, qtdmes):
 
-        consulta = 'INSERT OR IGNORE INTO curso (nomecurso, cargahr, qtdmes) VALUES (?, ?, ?)'
-        self.cursor.execute(consulta, (nomecurso, cargahr, qtdmes))
+        consulta = 'INSERT OR IGNORE INTO curso (nomecurso, cargahr, valorparc, qtdmes) VALUES (?, ?, ?, ?)'
+        self.cursor.execute(consulta, (nomecurso, cargahr, valorparc, qtdmes))
         self.conn.commit()
     
     def list_coursedb(self):
