@@ -505,7 +505,7 @@
          <string>Pesquisar</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton_5">
+       <widget class="QPushButton" name="list_late">
         <property name="geometry">
          <rect>
           <x>250</x>
@@ -786,7 +786,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>comboBox_2</tabstop>
   <tabstop>lineEdit_7</tabstop>
   <tabstop>pushButton_4</tabstop>
-  <tabstop>pushButton_5</tabstop>
+  <tabstop>list_late</tabstop>
   <tabstop>list_course</tabstop>
   <tabstop>idadel</tabstop>
   <tabstop>delA</tabstop>

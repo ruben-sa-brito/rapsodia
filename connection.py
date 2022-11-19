@@ -90,6 +90,25 @@ class rapsodiadb:
             
             return aluno 
     
+    def list_latedb(self):
+        alunopay = list()
+        mesespagos = 0
+        alunos = list()
+        for aluno in self.cursor.execute(f'SELECT idaluno, nome FROM aluno '):
+            alunos.append(aluno)
+        
+        for aluno in alunos:
+            aluno2 = list(aluno)
+            
+            for tup in self.cursor.execute(f'SELECT pagamento FROM pagamentos WHERE pagamentos.fidaluno = {aluno[0]}').fetchall():  
+                if tup == (1,):
+                    mesespagos +=1
+            aluno2.append(mesespagos)
+            alunopay.append(aluno2)
+            mesespagos = 0 
+            
+        return alunopay
+        
     def register_paymentsdbtest(self, idaluno, parcela):
         try:
             consulta = self.cursor.execute(f'SELECT pagamento FROM pagamentos  WHERE fidaluno = {int(idaluno)} AND parcela = {int(parcela)} ')
