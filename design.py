@@ -158,9 +158,9 @@ class Ui_MainWindow(object):
         self.pushButton_4 = QtWidgets.QPushButton(self.search)
         self.pushButton_4.setGeometry(QtCore.QRect(80, 420, 75, 23))
         self.pushButton_4.setObjectName("pushButton_4")
-        self.pushButton_5 = QtWidgets.QPushButton(self.search)
-        self.pushButton_5.setGeometry(QtCore.QRect(250, 360, 91, 23))
-        self.pushButton_5.setObjectName("pushButton_5")
+        self.list_late = QtWidgets.QPushButton(self.search)
+        self.list_late.setGeometry(QtCore.QRect(250, 360, 91, 23))
+        self.list_late.setObjectName("list_late")
         self.list_course = QtWidgets.QPushButton(self.search)
         self.list_course.setGeometry(QtCore.QRect(250, 400, 91, 23))
         self.list_course.setObjectName("list_course")
@@ -273,8 +273,8 @@ class Ui_MainWindow(object):
         MainWindow.setTabOrder(self.pushButtonPay, self.comboBox_2)
         MainWindow.setTabOrder(self.comboBox_2, self.lineEdit_7)
         MainWindow.setTabOrder(self.lineEdit_7, self.pushButton_4)
-        MainWindow.setTabOrder(self.pushButton_4, self.pushButton_5)
-        MainWindow.setTabOrder(self.pushButton_5, self.list_course)
+        MainWindow.setTabOrder(self.pushButton_4, self.list_late)
+        MainWindow.setTabOrder(self.list_late, self.list_course)
         MainWindow.setTabOrder(self.list_course, self.idadel)
         MainWindow.setTabOrder(self.idadel, self.delA)
         MainWindow.setTabOrder(self.delA, self.idcdel)
@@ -308,7 +308,7 @@ class Ui_MainWindow(object):
         self.label_18.setText(_translate("MainWindow", "parcela:"))
         self.label_11.setText(_translate("MainWindow", "pesquisar por:"))
         self.pushButton_4.setText(_translate("MainWindow", "Pesquisar"))
-        self.pushButton_5.setText(_translate("MainWindow", "listar atrasados"))
+        self.list_late.setText(_translate("MainWindow", "listar atrasados"))
         self.list_course.setText(_translate("MainWindow", "listar cursos"))
         self.textBrowser.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
@@ -335,4 +335,3 @@ class Ui_MainWindow(object):
         self.actionPesquisar.setToolTip(_translate("MainWindow", "Pesquisar"))
         self.actionExcluir.setText(_translate("MainWindow", "Excluir"))
         self.actionCursos.setText(_translate("MainWindow", "Cursos"))
-

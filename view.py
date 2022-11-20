@@ -25,6 +25,7 @@ class Novo(QMainWindow, Ui_MainWindow):
         self.comboBox_2.addItems(('id','Nome'))
         self.pushButton_4.clicked.connect(self.list_student)
         self.pushButton_2.clicked.connect(self.update_student)
+        self.list_late.clicked.connect(self.list_latef)
         self.delA.clicked.connect(self.del_student)
         
         for tup in self.conexao.combo():
@@ -212,6 +213,10 @@ f"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt
                 pass
         else:
             message.general_error()            
+       
+    def list_latef(self):
+        print(self.conexao.list_latedb())
+              
        
     '''        
     def del_course(self):
