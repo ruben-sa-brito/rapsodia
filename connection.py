@@ -1,5 +1,5 @@
 import sqlite3
-
+from datetime import datetime
 
 
 class rapsodiadb:
@@ -126,9 +126,10 @@ class rapsodiadb:
             return
     
     def register_paymentsdb(self, idaluno, parcela):
+
+            today = str(datetime.now())
         
-        
-            registro = f'UPDATE pagamentos SET pagamento = 1 WHERE fidaluno = {int(idaluno)} AND parcela = {int(parcela)} '
+            registro = f"UPDATE pagamentos SET pagamento = 1, data = '{today}' WHERE fidaluno = {int(idaluno)} AND parcela = {int(parcela)}"
             self.cursor.execute(registro)
             self.conn.commit()           
     
