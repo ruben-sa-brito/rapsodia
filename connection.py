@@ -128,10 +128,28 @@ class rapsodiadb:
     def register_paymentsdb(self, idaluno, parcela):
 
             today = str(datetime.now())
-        
+            idcur = int()
+            qtdmes = int()
+            pagamentos = list()
             registro = f"UPDATE pagamentos SET pagamento = 1, data = '{today}' WHERE fidaluno = {int(idaluno)} AND parcela = {int(parcela)}"
             self.cursor.execute(registro)
-            self.conn.commit()           
+            self.conn.commit()
+            
+            for tup in self.cursor.execute(f'SELECT fidcurso FROM cursoaluno WHERE fidaluno = {int(idaluno)}'):
+                for ide in tup:
+                    idcur = int(ide)
+                    break
+            for tup in self.cursor.execute(f'SELECT qtdmes FROM curso WHERE idcurso = {idcur} '):
+                for qtd in tup:
+                    qtdmes = int(qtd)
+                    break 
+            
+            for tup in self.cursor.execute(f'SELECT pagamento FROM pagamentos WHERE fidaluno = {int(idaluno)}'):
+                pagamentos.append(tup[0]) 
+            
+            if sum(pagamentos) == qtdmes:
+                self.cursor.execute(f'UPDATE cursoaluno SET conc = 1 WHERE fidaluno = {idaluno}')
+                self.conn.commit()                        
     
     def update_studentdb(self, idaluno, values):
         
