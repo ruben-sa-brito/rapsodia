@@ -1,5 +1,5 @@
 import sqlite3
-from datetime import datetime
+
 
 
 class rapsodiadb:
@@ -18,14 +18,14 @@ class rapsodiadb:
         self.cursor.execute(consulta, (nome, email, telefone))
         self.conn.commit()
         
-    def insert_student_coursedb(self, datavenc, fidcurso, valorparc): 
+    def insert_student_coursedb(self, datavenc, fidcurso): 
         fidaluno = str()
         for tup in self.cursor.execute('SELECT MAX(idaluno) FROM aluno').fetchall():
             for i in tup:
                 fidaluno = i 
         
-        consulta = 'INSERT OR IGNORE INTO cursoaluno (datavenc, fidaluno, fidcurso, valorparc) VALUES (?, ?, ?, ?)'       
-        self.cursor.execute(consulta, (datavenc, fidaluno, fidcurso, valorparc))
+        consulta = 'INSERT OR IGNORE INTO cursoaluno (datavenc, fidaluno, fidcurso) VALUES (?, ?, ?)'       
+        self.cursor.execute(consulta, (datavenc, fidaluno, fidcurso))
         self.conn.commit()
     
     def payments(self, idcurso):
@@ -195,7 +195,10 @@ class rapsodiadb:
                     else:
                         
                         return True        
-        
+
+    def select_coursedb(self, idaluno):
+        return self.cursor.execute(f'SELECT qtdmes, datavenc, conc FROM cursoaluno JOIN curso ON cursoaluno.fidcurso = curso.idcurso WHERE fidaluno = {idaluno}')
+                
                     
    
                
