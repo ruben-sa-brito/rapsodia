@@ -204,24 +204,28 @@ f"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt
     
     def del_student(self):
         
-        
-        
-        if self.conexao.select_aluno_exists(self.idadel.text()):
-            
-            if message.confirm_box_del(self.conexao.select_aluno(self.idadel.text())):
+        try:
+            int(self.idadel.text())
+        except:
+            message.general_error()
+        else:    
+            if self.conexao.select_aluno_exists(self.idadel.text()):
                 
-                message.del_success()
+                if message.confirm_box_del(self.conexao.select_aluno(self.idadel.text())):
+                    self.conexao.del_studentdb(int(self.idadel.text()))
+                    message.del_success()
+                else:
+                    pass
             else:
-                pass
-        else:
-            message.general_error()            
+                message.general_error()
+                            
        
     def list_latef(self):
         
         list_atrasados = list() 
          
         for tup in self.conexao.list_latedb():
-            print(tup)
+            
             
             for tup2 in self.conexao.select_coursedb(tup[0]):
                 pag = 0
