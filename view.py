@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QMainWindow, QApplication
 from connection import rapsodiadb
 import re 
 from dialog import Dialog
+from datetime import datetime, timedelta
 regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
 
 
@@ -73,14 +74,15 @@ class Novo(QMainWindow, Ui_MainWindow):
                 if i == '-':
                     break
                 course +=i
+               
             try:
-                int(self.lineEdit_2.text())
+                int(self.lineEdit_4.text())
             except:
                 message.general_error()
             else:        
                         
                 self.conexao.insert_studentdb(self.lineEdit.text(), self.lineEdit_3.text(), self.lineEdit_4.text())
-                self.conexao.insert_student_coursedb(self.dateEdit.text(), int(course), int(self.lineEdit_2.text()))
+                self.conexao.insert_student_coursedb(self.dateEdit.text(), int(course))
                 self.conexao.payments(course)
                 self.lineEdit.setText(''), self.lineEdit_3.setText(''), self.lineEdit_4.setText('')
                 
@@ -202,21 +204,74 @@ f"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt
     
     def del_student(self):
         
-        
-        
-        if self.conexao.select_aluno_exists(self.idadel.text()):
-            
-            if message.confirm_box_del(self.conexao.select_aluno(self.idadel.text())):
+        try:
+            int(self.idadel.text())
+        except:
+            message.general_error()
+        else:    
+            if self.conexao.select_aluno_exists(self.idadel.text()):
                 
-                message.del_success()
+                if message.confirm_box_del(self.conexao.select_aluno(self.idadel.text())):
+                    self.conexao.del_studentdb(int(self.idadel.text()))
+                    message.del_success()
+                else:
+                    pass
             else:
-                pass
-        else:
-            message.general_error()            
+                message.general_error()
+                            
        
     def list_latef(self):
-        print(self.conexao.list_latedb())
-              
+        
+        list_atrasados = list() 
+         
+        for tup in self.conexao.list_latedb():
+            
+            
+            for tup2 in self.conexao.select_coursedb(tup[0]):
+                pag = 0
+                hoje = datetime.now()
+                hoje = datetime(year = hoje.year, month = hoje.month, day = hoje.day )
+                
+                data_venc = datetime(year = int(tup2[1][6:10]), month = int(tup2[1][3:5]), day = int(tup2[1][0:2]))
+                if data_venc > hoje:
+                    break
+                else:
+                    pag += 1
+                data_c = data_venc
+                if tup2[2] != 1:
+                    while True:
+                        data_c += timedelta(days=1)
+                        
+                        if data_c.day == data_venc.day:
+                            pag += 1
+                        
+                        if pag == tup2[0]:
+                            break    
+                        
+                        if data_c == hoje:
+                            break
+                    if tup[2] < pag:
+                        list_atrasados.append([tup[0], tup[1], pag-tup[2]]) 
+                    
+                    pag = 0
+        texto = str()
+        form = {1: 'id: ', 2: 'Nome: ', 3:'Parcelas atrasadas: '}
+        controle = 1
+        for aluno in list_atrasados:
+            for dado in aluno:
+                if controle == 3:
+                    texto += form[controle] +  str(dado)  + '<br>---------------------------<br><br>'  
+                else:
+                    texto += form[controle] +  str(dado) + '<br>'
+                controle +=1
+            controle = 1     
+
+        self.textBrowser.setHtml("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+f"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\" bgcolor=\"#f0f0f0\">\n<FONT COLOR='#787878'>{texto}</FONT>"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>")                   
+                    
        
     '''        
     def del_course(self):
