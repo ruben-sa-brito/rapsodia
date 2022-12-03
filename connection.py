@@ -177,8 +177,7 @@ class rapsodiadb:
             self.conn.commit()
         except:
             return 0    
-                       
-        
+                              
     def select_aluno(self, idaluno):
         consulta = self.cursor.execute(f'SELECT nome FROM aluno WHERE idaluno = {int(idaluno)}')
         for a in consulta:
@@ -199,7 +198,9 @@ class rapsodiadb:
 
     def select_coursedb(self, idaluno):
         return self.cursor.execute(f'SELECT qtdmes, datavenc, conc FROM cursoaluno JOIN curso ON cursoaluno.fidcurso = curso.idcurso WHERE fidaluno = {idaluno}')
-                
+    
+    def select_paymentsdb(self):
+        return self.cursor.execute('SELECT substr(data, 0, 8) FROM pagamentos')                
                     
    
                

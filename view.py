@@ -26,6 +26,7 @@ class Novo(QMainWindow, Ui_MainWindow):
         self.comboBox_2.addItems(('id','Nome'))
         self.pushButton_4.clicked.connect(self.list_student)
         self.pushButton_2.clicked.connect(self.update_student)
+        self.list_paym.clicked.connect(self.list_payments)
         self.list_late.clicked.connect(self.list_latef)
         self.delA.clicked.connect(self.del_student)
         
@@ -219,7 +220,6 @@ f"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt
             else:
                 message.general_error()
                             
-       
     def list_latef(self):
         
         list_atrasados = list() 
@@ -271,7 +271,10 @@ f"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt
 "p, li { white-space: pre-wrap; }\n"
 f"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\" bgcolor=\"#f0f0f0\">\n<FONT COLOR='#787878'>{texto}</FONT>"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>")                   
-                    
+    
+    def list_payments(self):
+        for tup in self.conexao.select_paymentsdb():
+            print(tup)                
        
     '''        
     def del_course(self):
