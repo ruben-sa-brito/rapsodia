@@ -508,8 +508,8 @@
        <widget class="QPushButton" name="list_late">
         <property name="geometry">
          <rect>
-          <x>250</x>
-          <y>360</y>
+          <x>80</x>
+          <y>450</y>
           <width>91</width>
           <height>23</height>
          </rect>
@@ -522,8 +522,8 @@
         <property name="geometry">
          <rect>
           <x>250</x>
-          <y>400</y>
-          <width>91</width>
+          <y>360</y>
+          <width>71</width>
           <height>23</height>
          </rect>
         </property>
@@ -546,6 +546,45 @@
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot; bgcolor=&quot;#f0f0f0&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QDateEdit" name="dateEdit_2">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>410</y>
+          <width>71</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="displayFormat">
+         <string>MM/yyyy</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="list_paym">
+        <property name="geometry">
+         <rect>
+          <x>330</x>
+          <y>410</y>
+          <width>101</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>listar pagamentos</string>
+        </property>
+       </widget>
+       <widget class="Line" name="line">
+        <property name="geometry">
+         <rect>
+          <x>220</x>
+          <y>350</y>
+          <width>16</width>
+          <height>171</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
         </property>
        </widget>
       </widget>
