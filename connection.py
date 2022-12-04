@@ -5,7 +5,13 @@ from datetime import datetime
 
 class rapsodiadb:
     def __init__(self):
-        self.conn = sqlite3.connect('db_graf.db')
+        
+        with open('dir_db.txt', 'r' ) as arquivo:
+            local = arquivo.read()
+            
+        
+            
+        self.conn = sqlite3.connect(local[7:])
         self.cursor = self.conn.cursor()
 
     def combo(self):
@@ -127,12 +133,23 @@ class rapsodiadb:
             return
     
     def register_paymentsdb(self, idaluno, parcela):
-
+            curso = str()
+            valor = str()
+            
+            for tup in self.cursor.execute(f'SELECT fidcurso FROM cursoaluno WHERE fidaluno = {idaluno} LIMIT 1'):
+                for id in tup:
+                    curso = id
+            for tup in self.cursor.execute(f'SELECT valorparc FROM curso WHERE idcurso = {curso} LIMIT 1'):
+                for parc in tup:
+                    valor = parc        
+            
+            
+                    
             today = str(datetime.now())
             idcur = int()
             qtdmes = int()
             pagamentos = list()
-            registro = f"UPDATE pagamentos SET pagamento = 1, data = '{today}' WHERE fidaluno = {int(idaluno)} AND parcela = {int(parcela)}"
+            registro = f"UPDATE pagamentos SET pagamento = 1, data = '{today}', valor = {valor} WHERE fidaluno = {int(idaluno)} AND parcela = {int(parcela)}"
             self.cursor.execute(registro)
             self.conn.commit()
             
