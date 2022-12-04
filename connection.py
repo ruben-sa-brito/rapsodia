@@ -217,7 +217,7 @@ class rapsodiadb:
         return self.cursor.execute(f'SELECT qtdmes, datavenc, conc FROM cursoaluno JOIN curso ON cursoaluno.fidcurso = curso.idcurso WHERE fidaluno = {idaluno}')
     
     def select_paymentsdb(self):
-        return self.cursor.execute('SELECT substr(data, 0, 8) FROM pagamentos')                
+        return self.cursor.execute('SELECT substr(data, 0, 8), valor FROM pagamentos')                
                     
    
                

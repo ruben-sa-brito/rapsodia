@@ -265,8 +265,19 @@ f"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>")                   
     
     def list_payments(self):
+        date = self.dateEdit_2.text()
+        total_pay = 0
+        total_value = 0
+        
         for tup in self.conexao.select_paymentsdb():
-            print(tup)                
+            if tup[0] and tup[1] is not None:
+                if tup[0][0:4] == date[3:8] and tup[0][5:7] == date[0:2]:
+                    total_pay +=1
+                     
+                    total_value += tup[1]
+        
+        texto = f'Neste mês foram realizados {total_pay} pagamentos, com um valor total de {total_value}'        
+        self.textBrowser.setHtml(f"<body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\" bgcolor=\"#f0f0f0\">\n<FONT COLOR='#787878' size = 4>{texto}</FONT>")                       
        
     '''        
     def del_course(self):
