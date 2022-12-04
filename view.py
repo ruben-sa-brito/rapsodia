@@ -279,13 +279,7 @@ f"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt
         texto = f'Neste mês foram realizados {total_pay} pagamentos, com um valor total de {total_value}'        
         self.textBrowser.setHtml(f"<body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\" bgcolor=\"#f0f0f0\">\n<FONT COLOR='#787878' size = 4>{texto}</FONT>")                       
        
-    '''        
-    def del_course(self):
-        if self.conexao.exc_studentdb(self.idcdel.text()) == 0:
-            message.general_error()
-        else:
-            message.att_success()    
-    '''   
+
         
                                          
                         
