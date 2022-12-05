@@ -98,4 +98,10 @@ class Dialog:
         self.message.setText('Cadastro atualizado')
         self.message.setWindowTitle('Mensagem')
         self.message.setIcon(QMessageBox.Information)
-        self.message.exec_()             
+        self.message.exec_() 
+    
+    def invalid_day(self):
+        self.message.setText('Dia de vencimento inválido, escolha um valor menor que 28.')
+        self.message.setWindowTitle('Erro')
+        self.message.setIcon(QMessageBox.Warning)
+        self.message.exec_()                

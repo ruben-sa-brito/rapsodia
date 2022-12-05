@@ -30,6 +30,7 @@ class Novo(QMainWindow, Ui_MainWindow):
         self.list_late.clicked.connect(self.list_latef)
         self.delA.clicked.connect(self.del_student)
         
+        
         for tup in self.conexao.combo():
             tup = map(lambda a: str(a), tup)
             self.comboBox.addItem('-'.join(tup))   
@@ -59,17 +60,23 @@ class Novo(QMainWindow, Ui_MainWindow):
                 message.sucess_register()
            
     def register(self):
+        
+        
            
         if len(self.lineEdit.text().replace(' ','')) == 0:
             
-            message.invalid_name()
-            
-        elif not (re.search(regex, self.lineEdit_3.text())):
-            
-            message.invalid_email()         
+            message.invalid_name()       
+        
+        elif int(self.dateEdit.text()[0:2]) >= 28:
+            message.invalid_day()
                 
-        else:    
-            
+        else:   
+             
+            if  len(self.lineEdit_3.text().replace(' ',''))>0:
+                if not (re.search(regex, self.lineEdit_3.text())):
+                    message.invalid_email()
+                    return
+                
             course = str()
             for i in self.comboBox.currentText():
                 if i == '-':
