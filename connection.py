@@ -27,12 +27,16 @@ class rapsodiadb:
         
     def insert_student_coursedb(self, datavenc, fidcurso): 
         fidaluno = str()
+        valorparc = str()
         for tup in self.cursor.execute('SELECT MAX(idaluno) FROM aluno').fetchall():
             for i in tup:
                 fidaluno = i 
-        
-        consulta = 'INSERT OR IGNORE INTO cursoaluno (datavenc, fidaluno, fidcurso) VALUES (?, ?, ?)'       
-        self.cursor.execute(consulta, (datavenc, fidaluno, fidcurso))
+        for tup in self.cursor.execute(f'SELECT valorparc FROM curso WHERE idcurso = {fidcurso}'):
+            for i in tup:
+                valorparc = i
+                
+        consulta = 'INSERT OR IGNORE INTO cursoaluno (datavenc, fidaluno, fidcurso, valorparc) VALUES (?, ?, ?, ?)'       
+        self.cursor.execute(consulta, (datavenc, fidaluno, fidcurso, float(valorparc)))
         self.conn.commit()
     
     def payments(self, idcurso):
@@ -133,13 +137,11 @@ class rapsodiadb:
             return
     
     def register_paymentsdb(self, idaluno, parcela):
-            curso = str()
+            
             valor = str()
             
-            for tup in self.cursor.execute(f'SELECT fidcurso FROM cursoaluno WHERE fidaluno = {idaluno} LIMIT 1'):
-                for id in tup:
-                    curso = id
-            for tup in self.cursor.execute(f'SELECT valorparc FROM curso WHERE idcurso = {curso} LIMIT 1'):
+            
+            for tup in self.cursor.execute(f'SELECT valorparc FROM cursoaluno WHERE fidaluno = {idaluno} LIMIT 1'):
                 for parc in tup:
                     valor = parc        
             
