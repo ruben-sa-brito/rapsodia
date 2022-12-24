@@ -169,13 +169,21 @@ class rapsodiadb:
                 self.cursor.execute(f'UPDATE cursoaluno SET conc = 1 WHERE fidaluno = {idaluno}')
                 self.conn.commit()                        
     
-    def update_studentdb(self, idaluno, values):
+    def update_studentdb(self, idaluno, values): #atualiza registros de estudantes no banco de dados
         
         att = f'UPDATE aluno SET {values} WHERE idaluno = {idaluno}'
         
         
         self.cursor.execute(att)
         self.conn.commit()
+    
+    def update_coursedb(self, idcurso, values): #atualiza registros de cursos no banco de dados
+        
+        att = f'UPDATE curso SET {values} WHERE idcurso = {idcurso}'
+        
+        
+        self.cursor.execute(att)
+        self.conn.commit()    
             
     def del_coursedb(self, idcurso):
         try:

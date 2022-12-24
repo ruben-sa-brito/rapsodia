@@ -44,7 +44,7 @@ class Novo(QMainWindow, Ui_MainWindow):
             tup = map(lambda a: str(a), tup)
             self.comboBox.addItem('-'.join(tup))
     
-    def insert_course(self):
+    def insert_course(self): #insere registros de cursos no banco de dados
         if len(self.course_name.text().replace(' ','')) == 0:
             message.invalid_name()
         else:    
@@ -60,7 +60,7 @@ class Novo(QMainWindow, Ui_MainWindow):
                 self.course_name.setText(''), self.workload.setText(''), self.mounths.setText(''), self.lineEdit_2.setText('')
                 message.sucess_register()
    
-    def update_course(self):
+    def update_course(self): #atualiza registros de cursos no banco de dados
         values = list()
         
         try:
@@ -70,11 +70,46 @@ class Novo(QMainWindow, Ui_MainWindow):
         else:         
             if self.conexao.select_course_exists(ida):
                 if message.confirm_box_upd(self.conexao.select_course(ida)):
-                    pass
+                    nome = self.course_name.text()
+                    cargahoraria = self.workload.text()
+                    valor = self.lineEdit_2.text()
+                    meses = self.mounths.text()
+                    if len(nome.replace(' ','')) != 0:
+                        
+                        values.append('nomecurso = '+"'"+nome+"'")
+                    
+                    try:
+                        if len(cargahoraria.replace(' ','')) != 0:
+                            float(cargahoraria)
+                            values.append('cargahr = '+"'"+cargahoraria+"'")     
+                    except:
+                        message.general_error() 
+                    
+                    try:
+                        if len(valor.replace(' ','')) != 0:
+                            float(valor)
+                            values.append('valorparc = '+"'"+valor+"'")     
+                    except:
+                        message.general_error()
+                    
+                    try:
+                        if len(meses.replace(' ','')) != 0:
+                            int(meses)
+                            values.append('qtdmes = '+"'"+meses+"'")     
+                    except:
+                        message.general_error()        
+                    
+                    if len(values) == 0:
+                        pass
+                    else:
+                        values = ', '.join(values)       
+                        self.conexao.update_coursedb(ida, values)
+                        self.course_name.setText(''), self.workload.setText(''), self.mounths.setText(''), self.lineEdit_2.setText('')
+                        message.att_success()
             else:
                 message.not_found()   
            
-    def register(self):
+    def register(self): #insere registro de alunos no banco de dados
         
         
            
