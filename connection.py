@@ -201,7 +201,7 @@ class rapsodiadb:
             for b in a:
                 return b
             
-    def select_aluno_exists(self, idaluno):
+    def select_aluno_exists(self, idcurso):
             
             consulta =self.cursor.execute(f'SELECT nome FROM aluno WHERE idaluno = {int(idaluno)}')
             for a in consulta:
@@ -212,6 +212,23 @@ class rapsodiadb:
                     else:
                         
                         return True        
+
+    def select_course(self, idcurso):
+        consulta = self.cursor.execute(f'SELECT nomecurso FROM curso WHERE idcurso = {int(idcurso)}')
+        for a in consulta:
+            for b in a:
+                return b
+
+    def select_course_exists(self, idcurso):
+        consulta =self.cursor.execute(f'SELECT nomecurso FROM curso WHERE idcurso = {int(idcurso)}')
+        for a in consulta:
+            for b in a:
+                if b == None:
+                    
+                    return False
+                else:
+                    
+                    return True 
 
     def select_coursedb(self, idaluno):
         return self.cursor.execute(f'SELECT qtdmes, datavenc, conc FROM cursoaluno JOIN curso ON cursoaluno.fidcurso = curso.idcurso WHERE fidaluno = {idaluno}')

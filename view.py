@@ -29,6 +29,7 @@ class Novo(QMainWindow, Ui_MainWindow):
         self.list_paym.clicked.connect(self.list_payments)
         self.list_late.clicked.connect(self.list_latef)
         self.delA.clicked.connect(self.del_student)
+        self.updatec.clicked.connect(self.update_course)
         
         
         for tup in self.conexao.combo():
@@ -58,6 +59,20 @@ class Novo(QMainWindow, Ui_MainWindow):
                 self.conexao.insert_coursedb(self.course_name.text(), self.workload.text(), self.lineEdit_2.text() ,self.mounths.text())
                 self.course_name.setText(''), self.workload.setText(''), self.mounths.setText(''), self.lineEdit_2.setText('')
                 message.sucess_register()
+   
+    def update_course(self):
+        values = list()
+        
+        try:
+            ida = int(self.lineEdit_9.text())
+        except:
+            message.general_error()
+        else:         
+            if self.conexao.select_course_exists(ida):
+                if message.confirm_box_upd(self.conexao.select_course(ida)):
+                    pass
+            else:
+                message.not_found()   
            
     def register(self):
         
