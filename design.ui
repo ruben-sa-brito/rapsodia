@@ -121,7 +121,7 @@
         <property name="geometry">
          <rect>
           <x>70</x>
-          <y>290</y>
+          <y>310</y>
           <width>81</width>
           <height>23</height>
          </rect>
@@ -180,7 +180,7 @@
         <property name="geometry">
          <rect>
           <x>160</x>
-          <y>290</y>
+          <y>310</y>
           <width>81</width>
           <height>23</height>
          </rect>
@@ -210,6 +210,29 @@
         </property>
         <property name="text">
          <string>Atenção: os campos 'vencimento' e 'curso' nao serão modificados ao atualizar registros.</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="checkBox">
+        <property name="geometry">
+         <rect>
+          <x>50</x>
+          <y>280</y>
+          <width>111</width>
+          <height>17</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>conceder desconto</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineDiscount">
+        <property name="geometry">
+         <rect>
+          <x>170</x>
+          <y>280</y>
+          <width>113</width>
+          <height>20</height>
+         </rect>
         </property>
        </widget>
       </widget>

@@ -30,7 +30,9 @@ class Novo(QMainWindow, Ui_MainWindow):
         self.list_late.clicked.connect(self.list_latef)
         self.delA.clicked.connect(self.del_student)
         self.updatec.clicked.connect(self.update_course)
-        
+        self.lineDiscount.setVisible(False)
+        self.checkBox.clicked.connect(self.discountBox)
+        self.lineDiscount.setPlaceholderText('Digite o novo valor')
         
         for tup in self.conexao.combo():
             tup = map(lambda a: str(a), tup)
@@ -145,6 +147,12 @@ class Novo(QMainWindow, Ui_MainWindow):
                 self.lineEdit.setText(''), self.lineEdit_3.setText(''), self.lineEdit_4.setText('')
                 
                 message.sucess_register()       
+    
+    def discountBox(self):
+        if self.checkBox.isChecked():
+            self.lineDiscount.setVisible(True)
+        if not self.checkBox.isChecked():  
+            self.lineDiscount.setVisible(False)  
     
     def list_coursei(self):
         texto = str()
