@@ -25,15 +25,18 @@ class rapsodiadb:
         self.cursor.execute(consulta, (nome, email, telefone))
         self.conn.commit()
         
-    def insert_student_coursedb(self, datavenc, fidcurso): 
+    def insert_student_coursedb(self, datavenc, fidcurso, check): 
         fidaluno = str()
         valorparc = str()
         for tup in self.cursor.execute('SELECT MAX(idaluno) FROM aluno').fetchall():
             for i in tup:
                 fidaluno = i 
-        for tup in self.cursor.execute(f'SELECT valorparc FROM curso WHERE idcurso = {fidcurso}'):
-            for i in tup:
-                valorparc = i
+        if not check:        
+            for tup in self.cursor.execute(f'SELECT valorparc FROM curso WHERE idcurso = {fidcurso}'):
+                for i in tup:
+                    valorparc = i
+        else:
+            valorparc = check            
                 
         consulta = 'INSERT OR IGNORE INTO cursoaluno (datavenc, fidaluno, fidcurso, valorparc) VALUES (?, ?, ?, ?)'       
         self.cursor.execute(consulta, (datavenc, fidaluno, fidcurso, float(valorparc)))

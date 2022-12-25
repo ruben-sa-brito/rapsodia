@@ -140,13 +140,28 @@ class Novo(QMainWindow, Ui_MainWindow):
             except:
                 message.general_error()
             else:        
-                        
-                self.conexao.insert_studentdb(self.lineEdit.text(), self.lineEdit_3.text(), self.lineEdit_4.text())
-                self.conexao.insert_student_coursedb(self.dateEdit.text(), int(course))
-                self.conexao.payments(course)
-                self.lineEdit.setText(''), self.lineEdit_3.setText(''), self.lineEdit_4.setText('')
-                
-                message.sucess_register()       
+                if self.checkBox.isChecked():
+                    if self.lineDiscount.text().replace(' ','') == 0:
+                        message.general_error()
+                    else:
+                        try:
+                            check = float(self.lineDiscount.text().replace(' ',''))    
+                              
+                            self.conexao.insert_studentdb(self.lineEdit.text(), self.lineEdit_3.text(), self.lineEdit_4.text())
+                            self.conexao.insert_student_coursedb(self.dateEdit.text(), int(course), check)
+                            self.conexao.payments(course)
+                            self.lineEdit.setText(''), self.lineEdit_3.setText(''), self.lineEdit_4.setText(''), self.lineDiscount.setText('')
+                            message.sucess_register()
+                        except:
+                            message.general_error()
+                else:
+                    check = False
+                    self.conexao.insert_studentdb(self.lineEdit.text(), self.lineEdit_3.text(), self.lineEdit_4.text())
+                    self.conexao.insert_student_coursedb(self.dateEdit.text(), int(course), check)
+                    self.conexao.payments(course)
+                    self.lineEdit.setText(''), self.lineEdit_3.setText(''), self.lineEdit_4.setText(''), self.lineDiscount.setText('')
+                    message.sucess_register()               
+                      
     
     def discountBox(self):
         if self.checkBox.isChecked():
@@ -347,6 +362,7 @@ class Novo(QMainWindow, Ui_MainWindow):
 if __name__ == '__main__':
     qt = QApplication(sys.argv)
     novo = Novo()
-    novo.show()
     message = Dialog(novo)
+    message.init_message()
+    novo.show()
     qt.exec_()
