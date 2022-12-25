@@ -25,14 +25,21 @@ class rapsodiadb:
         self.cursor.execute(consulta, (nome, email, telefone))
         self.conn.commit()
         
-    def insert_student_coursedb(self, datavenc, fidcurso): 
+    def insert_student_coursedb(self, datavenc, fidcurso, check): 
         fidaluno = str()
+        valorparc = str()
         for tup in self.cursor.execute('SELECT MAX(idaluno) FROM aluno').fetchall():
             for i in tup:
                 fidaluno = i 
-        
-        consulta = 'INSERT OR IGNORE INTO cursoaluno (datavenc, fidaluno, fidcurso) VALUES (?, ?, ?)'       
-        self.cursor.execute(consulta, (datavenc, fidaluno, fidcurso))
+        if not check:        
+            for tup in self.cursor.execute(f'SELECT valorparc FROM curso WHERE idcurso = {fidcurso}'):
+                for i in tup:
+                    valorparc = i
+        else:
+            valorparc = check            
+                
+        consulta = 'INSERT OR IGNORE INTO cursoaluno (datavenc, fidaluno, fidcurso, valorparc) VALUES (?, ?, ?, ?)'       
+        self.cursor.execute(consulta, (datavenc, fidaluno, fidcurso, float(valorparc)))
         self.conn.commit()
     
     def payments(self, idcurso):
@@ -133,13 +140,11 @@ class rapsodiadb:
             return
     
     def register_paymentsdb(self, idaluno, parcela):
-            curso = str()
+            
             valor = str()
             
-            for tup in self.cursor.execute(f'SELECT fidcurso FROM cursoaluno WHERE fidaluno = {idaluno} LIMIT 1'):
-                for id in tup:
-                    curso = id
-            for tup in self.cursor.execute(f'SELECT valorparc FROM curso WHERE idcurso = {curso} LIMIT 1'):
+            
+            for tup in self.cursor.execute(f'SELECT valorparc FROM cursoaluno WHERE fidaluno = {idaluno} LIMIT 1'):
                 for parc in tup:
                     valor = parc        
             
@@ -169,13 +174,21 @@ class rapsodiadb:
                 self.cursor.execute(f'UPDATE cursoaluno SET conc = 1 WHERE fidaluno = {idaluno}')
                 self.conn.commit()                        
     
-    def update_studentdb(self, idaluno, values):
+    def update_studentdb(self, idaluno, values): #atualiza registros de estudantes no banco de dados
         
         att = f'UPDATE aluno SET {values} WHERE idaluno = {idaluno}'
         
         
         self.cursor.execute(att)
         self.conn.commit()
+    
+    def update_coursedb(self, idcurso, values): #atualiza registros de cursos no banco de dados
+        
+        att = f'UPDATE curso SET {values} WHERE idcurso = {idcurso}'
+        
+        
+        self.cursor.execute(att)
+        self.conn.commit()    
             
     def del_coursedb(self, idcurso):
         try:
@@ -212,6 +225,23 @@ class rapsodiadb:
                     else:
                         
                         return True        
+
+    def select_course(self, idcurso):
+        consulta = self.cursor.execute(f'SELECT nomecurso FROM curso WHERE idcurso = {int(idcurso)}')
+        for a in consulta:
+            for b in a:
+                return b
+
+    def select_course_exists(self, idcurso):
+        consulta =self.cursor.execute(f'SELECT nomecurso FROM curso WHERE idcurso = {int(idcurso)}')
+        for a in consulta:
+            for b in a:
+                if b == None:
+                    
+                    return False
+                else:
+                    
+                    return True 
 
     def select_coursedb(self, idaluno):
         return self.cursor.execute(f'SELECT qtdmes, datavenc, conc FROM cursoaluno JOIN curso ON cursoaluno.fidcurso = curso.idcurso WHERE fidaluno = {idaluno}')

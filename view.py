@@ -29,7 +29,10 @@ class Novo(QMainWindow, Ui_MainWindow):
         self.list_paym.clicked.connect(self.list_payments)
         self.list_late.clicked.connect(self.list_latef)
         self.delA.clicked.connect(self.del_student)
-        
+        self.updatec.clicked.connect(self.update_course)
+        self.lineDiscount.setVisible(False)
+        self.checkBox.clicked.connect(self.discountBox)
+        self.lineDiscount.setPlaceholderText('Digite o novo valor')
         
         for tup in self.conexao.combo():
             tup = map(lambda a: str(a), tup)
@@ -43,7 +46,7 @@ class Novo(QMainWindow, Ui_MainWindow):
             tup = map(lambda a: str(a), tup)
             self.comboBox.addItem('-'.join(tup))
     
-    def insert_course(self):
+    def insert_course(self): #insere registros de cursos no banco de dados
         if len(self.course_name.text().replace(' ','')) == 0:
             message.invalid_name()
         else:    
@@ -58,8 +61,57 @@ class Novo(QMainWindow, Ui_MainWindow):
                 self.conexao.insert_coursedb(self.course_name.text(), self.workload.text(), self.lineEdit_2.text() ,self.mounths.text())
                 self.course_name.setText(''), self.workload.setText(''), self.mounths.setText(''), self.lineEdit_2.setText('')
                 message.sucess_register()
+   
+    def update_course(self): #atualiza registros de cursos no banco de dados
+        values = list()
+        
+        try:
+            ida = int(self.lineEdit_9.text())
+        except:
+            message.general_error()
+        else:         
+            if self.conexao.select_course_exists(ida):
+                if message.confirm_box_upd(self.conexao.select_course(ida)):
+                    nome = self.course_name.text()
+                    cargahoraria = self.workload.text()
+                    valor = self.lineEdit_2.text()
+                    meses = self.mounths.text()
+                    if len(nome.replace(' ','')) != 0:
+                        
+                        values.append('nomecurso = '+"'"+nome+"'")
+                    
+                    try:
+                        if len(cargahoraria.replace(' ','')) != 0:
+                            float(cargahoraria)
+                            values.append('cargahr = '+"'"+cargahoraria+"'")     
+                    except:
+                        message.general_error() 
+                    
+                    try:
+                        if len(valor.replace(' ','')) != 0:
+                            float(valor)
+                            values.append('valorparc = '+"'"+valor+"'")     
+                    except:
+                        message.general_error()
+                    
+                    try:
+                        if len(meses.replace(' ','')) != 0:
+                            int(meses)
+                            values.append('qtdmes = '+"'"+meses+"'")     
+                    except:
+                        message.general_error()        
+                    
+                    if len(values) == 0:
+                        pass
+                    else:
+                        values = ', '.join(values)       
+                        self.conexao.update_coursedb(ida, values)
+                        self.course_name.setText(''), self.workload.setText(''), self.mounths.setText(''), self.lineEdit_2.setText('')
+                        message.att_success()
+            else:
+                message.not_found()   
            
-    def register(self):
+    def register(self): #insere registro de alunos no banco de dados
         
         
            
@@ -88,13 +140,34 @@ class Novo(QMainWindow, Ui_MainWindow):
             except:
                 message.general_error()
             else:        
-                        
-                self.conexao.insert_studentdb(self.lineEdit.text(), self.lineEdit_3.text(), self.lineEdit_4.text())
-                self.conexao.insert_student_coursedb(self.dateEdit.text(), int(course))
-                self.conexao.payments(course)
-                self.lineEdit.setText(''), self.lineEdit_3.setText(''), self.lineEdit_4.setText('')
-                
-                message.sucess_register()       
+                if self.checkBox.isChecked():
+                    if self.lineDiscount.text().replace(' ','') == 0:
+                        message.general_error()
+                    else:
+                        try:
+                            check = float(self.lineDiscount.text().replace(' ',''))    
+                              
+                            self.conexao.insert_studentdb(self.lineEdit.text(), self.lineEdit_3.text(), self.lineEdit_4.text())
+                            self.conexao.insert_student_coursedb(self.dateEdit.text(), int(course), check)
+                            self.conexao.payments(course)
+                            self.lineEdit.setText(''), self.lineEdit_3.setText(''), self.lineEdit_4.setText(''), self.lineDiscount.setText('')
+                            message.sucess_register()
+                        except:
+                            message.general_error()
+                else:
+                    check = False
+                    self.conexao.insert_studentdb(self.lineEdit.text(), self.lineEdit_3.text(), self.lineEdit_4.text())
+                    self.conexao.insert_student_coursedb(self.dateEdit.text(), int(course), check)
+                    self.conexao.payments(course)
+                    self.lineEdit.setText(''), self.lineEdit_3.setText(''), self.lineEdit_4.setText(''), self.lineDiscount.setText('')
+                    message.sucess_register()               
+                      
+    
+    def discountBox(self):
+        if self.checkBox.isChecked():
+            self.lineDiscount.setVisible(True)
+        if not self.checkBox.isChecked():  
+            self.lineDiscount.setVisible(False)  
     
     def list_coursei(self):
         texto = str()
@@ -289,6 +362,7 @@ class Novo(QMainWindow, Ui_MainWindow):
 if __name__ == '__main__':
     qt = QApplication(sys.argv)
     novo = Novo()
-    novo.show()
     message = Dialog(novo)
+    message.init_message()
+    novo.show()
     qt.exec_()

@@ -104,4 +104,11 @@ class Dialog:
         self.message.setText('Dia de vencimento inválido, escolha um valor menor que 28.')
         self.message.setWindowTitle('Erro')
         self.message.setIcon(QMessageBox.Warning)
-        self.message.exec_()                
+        self.message.exec_()   
+    
+    def init_message(self):
+        self.message.setText('Antes de usar o sistema verifique se a data do computador está correta.')
+        self.message.setWindowTitle('ATENÇÃO!')
+        self.message.setIcon(QMessageBox.Information)
+        self.message.exec_()
+                         
