@@ -481,6 +481,57 @@
         </property>
        </widget>
       </widget>
+      <widget class="QWidget" name="generatePage">
+       <widget class="QLabel" name="label_24">
+        <property name="geometry">
+         <rect>
+          <x>170</x>
+          <y>10</y>
+          <width>161</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;GERAR CARNÊS&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_25">
+        <property name="geometry">
+         <rect>
+          <x>100</x>
+          <y>70</y>
+          <width>47</width>
+          <height>13</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>      id:</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEditidAlGen">
+        <property name="geometry">
+         <rect>
+          <x>140</x>
+          <y>70</y>
+          <width>113</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_3">
+        <property name="geometry">
+         <rect>
+          <x>140</x>
+          <y>110</y>
+          <width>75</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Gerar carnê</string>
+        </property>
+       </widget>
+      </widget>
       <widget class="QWidget" name="search">
        <widget class="QComboBox" name="comboBox_2">
         <property name="geometry">
@@ -752,6 +803,7 @@ p, li { white-space: pre-wrap; }
    <addaction name="actionCursos"/>
    <addaction name="actionEmail"/>
    <addaction name="actionRegistrar"/>
+   <addaction name="actionGerar_carn_s"/>
    <addaction name="actionPesquisar"/>
    <addaction name="actionExcluir"/>
   </widget>
@@ -825,6 +877,15 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="text">
     <string>Cursos</string>
+   </property>
+  </action>
+  <action name="actionGerar_carn_s">
+   <property name="icon">
+    <iconset>
+     <normaloff>icons/icons8-pdf-64.png</normaloff>icons/icons8-pdf-64.png</iconset>
+   </property>
+   <property name="text">
+    <string>Gerar carnês</string>
    </property>
   </action>
  </widget>

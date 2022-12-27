@@ -19,6 +19,7 @@ class Novo(QMainWindow, Ui_MainWindow):
         self.actionPesquisar.triggered.connect(lambda: self.stackedWidget.setCurrentWidget(self.search))
         self.actionExcluir.triggered.connect(lambda: self.stackedWidget.setCurrentWidget(self.delete_2))
         self.actionCursos.triggered.connect(lambda: self.stackedWidget.setCurrentWidget(self.cursos))
+        self.actionGerar_carn_s.triggered.connect(lambda: self.stackedWidget.setCurrentWidget(self.generatePage))
         self.registerc.clicked.connect(self.insert_course)
         self.list_course.clicked.connect(self.list_coursei)
         self.pushButton.clicked.connect(self.register)
