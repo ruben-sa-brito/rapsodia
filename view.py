@@ -5,6 +5,7 @@ from connection import rapsodiadb
 import re 
 from dialog import Dialog
 from datetime import datetime, timedelta
+from generate import generate
 regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
 
 
@@ -31,6 +32,7 @@ class Novo(QMainWindow, Ui_MainWindow):
         self.list_late.clicked.connect(self.list_latef)
         self.delA.clicked.connect(self.del_student)
         self.updatec.clicked.connect(self.update_course)
+        self.pushButton_3.clicked.connect(self.generate_pay)
         self.lineDiscount.setVisible(False)
         self.checkBox.clicked.connect(self.discountBox)
         self.lineDiscount.setPlaceholderText('Digite o novo valor')
@@ -162,8 +164,7 @@ class Novo(QMainWindow, Ui_MainWindow):
                     self.conexao.payments(course)
                     self.lineEdit.setText(''), self.lineEdit_3.setText(''), self.lineEdit_4.setText(''), self.lineDiscount.setText('')
                     message.sucess_register()               
-                      
-    
+                          
     def discountBox(self):
         if self.checkBox.isChecked():
             self.lineDiscount.setVisible(True)
@@ -355,7 +356,15 @@ class Novo(QMainWindow, Ui_MainWindow):
         
         texto = f'Neste mês foram realizados {total_pay} pagamentos, com um valor total de {total_value}'        
         self.textBrowser.setHtml(f"<body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\" bgcolor=\"#f0f0f0\">\n<FONT COLOR='#787878' size = 4>{texto}</FONT>")                       
-       
+    
+    def generate_pay(self):
+        gen = list()
+        for tup in self.conexao.select_aluno_carnê(int(self.lineEditidAlGen.text())):
+            for i in tup:
+                gen.append(i) 
+        
+        carne = generate(gen[1]) 
+        carne.generate_parcs(gen[0], gen[1], gen[2], gen[3], gen[4])        
 
         
                                          
