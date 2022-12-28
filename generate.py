@@ -3,7 +3,7 @@ from reportlab.pdfgen import canvas
 
 class generate():
     def __init__(self, nome) -> None:
-        self.cnv = canvas.Canvas(nome + '.pdf')
+        self.cnv = canvas.Canvas("pdfs/"+nome + '.pdf')
     def generate_parcs(self, ida, nome, datavenc, n_mes, valor):
         cont = 0
         vencs = list()
@@ -59,7 +59,7 @@ class generate():
             self.cnv.drawString(152+x, 800+y, 'INFORMÁTICA' )
             self.cnv.drawString(150+x, 790+y, 'TURMA-CRATO' )
             self.cnv.drawString(20+x, 820+y, f'id: {ida}' )
-            self.cnv.drawImage('img.jpeg',40+x, 780+y, 60, 30)  # imagem da empresa
+            self.cnv.drawImage('icons\img.jpg',40+x, 780+y, 60, 30)  # imagem da empresa
             self.cnv.rect(35+x, 740+y, 240, 25) # aluno
             self.cnv.setFont(psfontname= 'Times-Roman' ,size=8)
             self.cnv.drawString(37+x, 758+y, 'Aluno ' )

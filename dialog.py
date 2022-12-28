@@ -111,4 +111,19 @@ class Dialog:
         self.message.setWindowTitle('ATENÇÃO!')
         self.message.setIcon(QMessageBox.Information)
         self.message.exec_()
-                         
+    
+    def confirm_box_carnê(self, text):
+       
+        n = self.message.question(self.message, 'Aviso','Deseja gerar o carnê do(a) aluno(a):\n ' +text, QMessageBox.Yes | QMessageBox.No)
+        self.message.question
+           
+        if n == self.message.Yes:
+            return 0
+        else:
+            return 1 
+    
+    def general_message(self, text):
+        self.message.setText(text)
+        self.message.setWindowTitle('Mensagem')
+        self.message.setIcon(QMessageBox.Information)
+        self.message.exec_()                        

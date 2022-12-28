@@ -358,13 +358,25 @@ class Novo(QMainWindow, Ui_MainWindow):
         self.textBrowser.setHtml(f"<body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\" bgcolor=\"#f0f0f0\">\n<FONT COLOR='#787878' size = 4>{texto}</FONT>")                       
     
     def generate_pay(self):
-        gen = list()
-        for tup in self.conexao.select_aluno_carnê(int(self.lineEditidAlGen.text())):
-            for i in tup:
-                gen.append(i) 
-        
-        carne = generate(gen[1]) 
-        carne.generate_parcs(gen[0], gen[1], gen[2], gen[3], gen[4])        
+        try:
+            int(self.lineEditidAlGen.text())
+        except:
+            message.general_error() 
+        else:
+            if self.conexao.select_aluno_exists(self.lineEditidAlGen.text()):       
+                if message.confirm_box_carnê(self.conexao.select_aluno(self.lineEditidAlGen.text())) == 0:
+                        
+                        
+                        gen = list()
+                        for tup in self.conexao.select_aluno_carnê(int(self.lineEditidAlGen.text())):
+                            for i in tup:
+                                gen.append(i) 
+                        
+                        carne = generate(gen[1]) 
+                        carne.generate_parcs(gen[0], gen[1], gen[2], gen[3], gen[4])
+                        message.general_message('Carnê gerado com sucesso \n Verifique a pasta pdfs no diretório do programa.')
+            else:
+                message.not_found()                   
 
         
                                          
