@@ -1,5 +1,6 @@
 import sys
 from design import *
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMainWindow, QApplication
 from connection import rapsodiadb
 import re 
@@ -13,6 +14,8 @@ class Novo(QMainWindow, Ui_MainWindow):
     def __init__(self, parent = None):
         super().__init__(parent)
         super().setupUi(self)
+        self.setWindowFlag(Qt.WindowMaximizeButtonHint, False)
+        self.setFixedSize(531, 614)
         self.conexao = rapsodiadb()
         self.actionCadastrar.triggered.connect(self.cadastrarWid)
         self.actionEmail.triggered.connect(lambda: self.stackedWidget.setCurrentWidget(self.update))
