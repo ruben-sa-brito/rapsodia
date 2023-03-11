@@ -310,24 +310,28 @@ class Novo(QMainWindow, Ui_MainWindow):
                 hoje = datetime(year = hoje.year, month = hoje.month, day = hoje.day )
                 
                 data_venc = datetime(year = int(tup2[1][6:10]), month = int(tup2[1][3:5]), day = int(tup2[1][0:2]))
-                if data_venc > hoje:
+                
+                if data_venc >= hoje:
                     break
                 else:
                     pag += 1
                 data_c = data_venc
                 if tup2[2] != 1:
+                    
+                    
                     while True:
-                        data_c += timedelta(days=1)
+                        data_c += timedelta(days=1)    
                         
                         if data_c.day == data_venc.day:
                             pag += 1
-                        
+                            
                         if pag == tup2[0]:
                             break    
                         
                         if data_c == hoje:
                             break
                     if tup[2] < pag:
+                        
                         list_atrasados.append([tup[0], tup[1], pag-tup[2]]) 
                     
                     pag = 0
